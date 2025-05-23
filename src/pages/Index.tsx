@@ -37,8 +37,8 @@ const Index = () => {
         <StationTabs stations={stations} />
 
         {/* Main Content */}
-        <div className="p-6">
-          <TabsContent value="r11" className="space-y-6">
+        <div className="p-2 sm:p-4 md:p-6">
+          <TabsContent value="r11" className="space-y-4">
             {/* 39 Main Stations */}
             <StationSection title="39 Main Stations">
               <MainStationsContent />

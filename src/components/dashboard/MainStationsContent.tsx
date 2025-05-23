@@ -7,7 +7,7 @@ import MonitoringCard from "./MonitoringCard";
 const MainStationsContent = () => {
   return (
     <>
-      <div className="grid grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-4">
         <MonitoringCard title="Quality Measurement TX">
           <QualityChart />
         </MonitoringCard>
@@ -33,7 +33,7 @@ const MainStationsContent = () => {
         </MonitoringCard>
       </div>
 
-      <div className="grid grid-cols-6 gap-4 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-4 mt-4">
         <MonitoringCard title="Artificial delay">
           <QualityChart showDelay />
         </MonitoringCard>
@@ -43,13 +43,13 @@ const MainStationsContent = () => {
         </MonitoringCard>
 
         <MonitoringCard title="Downtime">
-          <div className="flex items-center justify-center h-20">
+          <div className="flex items-center justify-center h-16 md:h-20">
             <span className="text-orange-400 text-lg">N/A</span>
           </div>
         </MonitoringCard>
 
         <MonitoringCard title="Electrical Fault">
-          <div className="flex items-center justify-center h-20">
+          <div className="flex items-center justify-center h-16 md:h-20">
             <div className="text-center">
               <div className="text-orange-400">เขียวใหม่</div>
               <div className="text-xs text-orange-300">ส.ส.ท.</div>
@@ -58,13 +58,13 @@ const MainStationsContent = () => {
         </MonitoringCard>
 
         <MonitoringCard title="NT Link Fault">
-          <div className="flex items-center justify-center h-20">
+          <div className="flex items-center justify-center h-16 md:h-20">
             <span className="text-orange-400 text-lg">N/A</span>
           </div>
         </MonitoringCard>
 
         <MonitoringCard title="Satellite Link Fault">
-          <div className="flex items-center justify-center h-20">
+          <div className="flex items-center justify-center h-16 md:h-20">
             <span className="text-orange-400 text-lg">N/A</span>
           </div>
         </MonitoringCard>

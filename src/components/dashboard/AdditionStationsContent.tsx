@@ -7,7 +7,7 @@ import MonitoringCard from "./MonitoringCard";
 const AdditionStationsContent = () => {
   return (
     <>
-      <div className="grid grid-cols-6 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-4">
         <MonitoringCard title="Quality Measurement TX [NEC]">
           <QualityChart />
         </MonitoringCard>
@@ -17,7 +17,7 @@ const AdditionStationsContent = () => {
         </MonitoringCard>
 
         <MonitoringCard title="On Air">
-          <div className="grid grid-cols-4 gap-1">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1">
             <StatusIndicator status="active" value="54" size="sm" />
             <StatusIndicator status="inactive" value="0" size="sm" />
             <StatusIndicator status="inactive" value="0" size="sm" />
@@ -26,7 +26,7 @@ const AdditionStationsContent = () => {
         </MonitoringCard>
 
         <MonitoringCard title="PEA & MEA Status">
-          <div className="grid grid-cols-4 gap-1">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1">
             <StatusIndicator status="inactive" value="0" size="sm" />
             <StatusIndicator status="active" value="54" size="sm" />
             <StatusIndicator status="active" value="54" size="sm" />
@@ -46,7 +46,7 @@ const AdditionStationsContent = () => {
         </MonitoringCard>
       </div>
 
-      <div className="grid grid-cols-6 gap-4 mt-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-4 mt-4">
         <MonitoringCard title="Artificial delay">
           <QualityChart showDelay />
         </MonitoringCard>
@@ -56,19 +56,19 @@ const AdditionStationsContent = () => {
         </MonitoringCard>
 
         <MonitoringCard title="Downtime">
-          <div className="flex items-center justify-center h-20">
+          <div className="flex items-center justify-center h-16 md:h-20">
             <span className="text-orange-400 text-lg">N/A</span>
           </div>
         </MonitoringCard>
 
         <MonitoringCard title="Electrical Fault">
-          <div className="flex items-center justify-center h-20">
+          <div className="flex items-center justify-center h-16 md:h-20">
             <span className="text-orange-400 text-lg">N/A</span>
           </div>
         </MonitoringCard>
 
         <MonitoringCard title="NT Link Fault">
-          <div className="flex items-center justify-center h-20">
+          <div className="flex items-center justify-center h-16 md:h-20">
             <div className="text-center text-orange-400 text-xs">
               <div>ปราบรามงานครา</div>
               <div>เงียบแง่ง</div>
@@ -79,7 +79,7 @@ const AdditionStationsContent = () => {
         </MonitoringCard>
 
         <MonitoringCard title="Satellite Link Fault">
-          <div className="flex items-center justify-center h-20">
+          <div className="flex items-center justify-center h-16 md:h-20">
             <span className="text-orange-400 text-lg">N/A</span>
           </div>
         </MonitoringCard>

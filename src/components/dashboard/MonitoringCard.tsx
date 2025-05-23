@@ -9,11 +9,11 @@ interface MonitoringCardProps {
 
 const MonitoringCard = ({ title, children }: MonitoringCardProps) => {
   return (
-    <Card className="bg-blue-600 border-blue-500">
-      <CardHeader className="pb-2">
-        <CardTitle className="text-sm text-center text-white">{title}</CardTitle>
+    <Card className="bg-blue-600 border-blue-500 h-full">
+      <CardHeader className="pb-2 p-3 sm:p-4">
+        <CardTitle className="text-xs sm:text-sm text-center text-white">{title}</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-2 sm:p-4 pt-0">
         {children}
       </CardContent>
     </Card>

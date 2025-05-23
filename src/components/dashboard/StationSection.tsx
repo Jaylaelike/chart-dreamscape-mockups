@@ -1,6 +1,5 @@
 
 import { ReactNode } from "react";
-import MonitoringCard from "./MonitoringCard";
 
 interface StationSectionProps {
   title: string;
@@ -9,11 +8,13 @@ interface StationSectionProps {
 
 const StationSection = ({ title, children }: StationSectionProps) => {
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4 text-center bg-gray-800 py-2 rounded">
+    <div className="mb-6">
+      <h2 className="text-xl font-bold mb-4 text-center bg-gray-800 py-2 rounded shadow-md">
         {title}
       </h2>
-      {children}
+      <div className="space-y-4">
+        {children}
+      </div>
     </div>
   );
 };
