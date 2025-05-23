@@ -119,4 +119,21 @@
   .glass-panel {
     @apply bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl shadow-xl;
   }
+
+  /* Responsive utility classes */
+  .grid-dashboard {
+    @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2 md:gap-4;
+  }
+  
+  .card-content-responsive {
+    @apply p-1 sm:p-2 md:p-4;
+  }
+
+  .card-title-responsive {
+    @apply text-xs sm:text-sm font-medium;
+  }
+  
+  .dashboard-section {
+    @apply space-y-2 md:space-y-6;
+  }
 }

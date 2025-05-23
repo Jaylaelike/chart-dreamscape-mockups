@@ -27,11 +27,11 @@ const StatusIndicator = ({ status, value, size = 'md', label, tooltip }: StatusI
   const getSizeClasses = () => {
     switch (size) {
       case 'sm':
-        return 'w-8 h-8 text-xs';
+        return 'w-6 h-6 md:w-8 md:h-8 text-[10px] md:text-xs';
       case 'lg':
-        return 'w-16 h-16 text-xl';
+        return 'w-12 h-12 md:w-16 md:h-16 text-base md:text-xl';
       default:
-        return 'w-12 h-12 text-sm';
+        return 'w-10 h-10 md:w-12 md:h-12 text-xs md:text-sm';
     }
   };
 
@@ -62,7 +62,7 @@ const StatusIndicator = ({ status, value, size = 'md', label, tooltip }: StatusI
         indicatorContent
       )}
       {label && (
-        <div className="text-xs text-slate-300 mt-1 text-center">{label}</div>
+        <div className="text-[10px] md:text-xs text-slate-300 mt-1 text-center">{label}</div>
       )}
     </div>
   );
