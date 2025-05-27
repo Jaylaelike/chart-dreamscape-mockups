@@ -2,8 +2,11 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import StatusIndicator from "@/components/StatusIndicator";
 import QualityChart from "@/components/QualityChart";
+import QualityTxBarChart from "@/components/QualityRxBarChart";
 import TransmitterChart from "@/components/TransmitterChart";
+import TransmitterAnalysisChart from "@/components/TransmitterAnalysisChart";
 import MonitoringCard from "./MonitoringCard";
+import QualityRxBarChart from "@/components/QualityRxBarChart";
 
 interface StationData {
   time: string;
@@ -79,17 +82,14 @@ interface IrdApiResponse {
 
 const MainStationsContent = () => {
   // Fetch NT Link data with React Query
-  const { 
-    data: stationData = [], 
-    isLoading: isStationDataLoading
-  } = useQuery({
-    queryKey: ['stationData', 'main'],
+  const { data: stationData = [], isLoading: isStationDataLoading } = useQuery({
+    queryKey: ["stationData", "main"],
     queryFn: async () => {
       const response = await fetch(
         "http://localhost:3000/api/cisco_sw_join_eng_center"
       );
       const data: ApiResponse = await response.json();
-      
+
       // Filter only Station_Type === "M"
       const filteredData = data.orders.filter(
         (station) => station.Station_Type === "M"
@@ -99,21 +99,21 @@ const MainStationsContent = () => {
     },
     refetchInterval: 10000, // Refetch every 10 seconds
     refetchOnMount: true,
-    refetchOnWindowFocus: true
+    refetchOnWindowFocus: true,
   });
 
   // Fetch Daily Reporter data with React Query
   const {
     data: dailyReporterData = [],
-    isLoading: isDailyReporterDataLoading
+    isLoading: isDailyReporterDataLoading,
   } = useQuery({
-    queryKey: ['dailyReporterData', 'main'],
+    queryKey: ["dailyReporterData", "main"],
     queryFn: async () => {
       const dailyResponse = await fetch(
         "http://localhost:3000/api/daily_reporter"
       );
       const dailyData: DailyReporterData[] = await dailyResponse.json();
-      
+
       // Filter only Station_Type === "M"
       const filteredDailyData = dailyData.filter(
         (station) => station.Station_Type === "M"
@@ -123,34 +123,35 @@ const MainStationsContent = () => {
     },
     refetchInterval: 10000, // Refetch every 10 seconds
     refetchOnMount: true,
-    refetchOnWindowFocus: true
+    refetchOnWindowFocus: true,
   });
 
   // Fetch IRD Harmonic data with React Query
-  const {
-    data: irdHarmonicData = [],
-    isLoading: isIrdHarmonicDataLoading
-  } = useQuery({
-    queryKey: ['irdHarmonicData', 'main'],
-    queryFn: async () => {
-      const irdResponse = await fetch(
-        "http://localhost:3000/api/ird_harmonic_join_eng_center"
-      );
-      const irdData: IrdApiResponse = await irdResponse.json();
-      
-      // Filter only Station_Type === "M"
-      const filteredIrdData = irdData.orders.filter(
-        (station) => station.Station_Type === "M"
-      );
-      console.log("Fetched IRD harmonic data:", filteredIrdData);
-      return filteredIrdData;
-    },
-    refetchInterval: 10000, // Refetch every 10 seconds
-    refetchOnMount: true,
-    refetchOnWindowFocus: true
-  });
-  
-  const loading = isStationDataLoading || isDailyReporterDataLoading || isIrdHarmonicDataLoading;
+  const { data: irdHarmonicData = [], isLoading: isIrdHarmonicDataLoading } =
+    useQuery({
+      queryKey: ["irdHarmonicData", "main"],
+      queryFn: async () => {
+        const irdResponse = await fetch(
+          "http://localhost:3000/api/ird_harmonic_join_eng_center"
+        );
+        const irdData: IrdApiResponse = await irdResponse.json();
+
+        // Filter only Station_Type === "M"
+        const filteredIrdData = irdData.orders.filter(
+          (station) => station.Station_Type === "M"
+        );
+        console.log("Fetched IRD harmonic data:", filteredIrdData);
+        return filteredIrdData;
+      },
+      refetchInterval: 10000, // Refetch every 10 seconds
+      refetchOnMount: true,
+      refetchOnWindowFocus: true,
+    });
+
+  const loading =
+    isStationDataLoading ||
+    isDailyReporterDataLoading ||
+    isIrdHarmonicDataLoading;
 
   // Calculate NT Link statistics
   const connectedStations = stationData.filter(
@@ -182,7 +183,11 @@ const MainStationsContent = () => {
     (station) => station.Downtime === "Downtime"
   );
   const unknownDowntimeStations = dailyReporterData.filter(
-    (station) => !station.Downtime || station.Downtime === "" || station.Downtime === null || (station.Downtime !== "Normal" && station.Downtime !== "Downtime")
+    (station) =>
+      !station.Downtime ||
+      station.Downtime === "" ||
+      station.Downtime === null ||
+      (station.Downtime !== "Normal" && station.Downtime !== "Downtime")
   );
 
   // Group by Station_Type for On Air bar chart
@@ -227,7 +232,12 @@ const MainStationsContent = () => {
 
   // Group by Device_Name for satellite link status
   const satelliteByDevice = irdHarmonicData.reduce((acc, station) => {
-    const deviceType = station.Device_Name === "IRD A" ? "Main" : station.Device_Name === "IRD B" ? "Backup" : station.Device_Name;
+    const deviceType =
+      station.Device_Name === "IRD A"
+        ? "Main"
+        : station.Device_Name === "IRD B"
+        ? "Backup"
+        : station.Device_Name;
     if (!acc[deviceType]) {
       acc[deviceType] = { locked: 0, unlocked: 0 };
     }
@@ -241,13 +251,12 @@ const MainStationsContent = () => {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-6">
-        <MonitoringCard title="Quality Measurement TX">
-          <QualityChart />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-6">        <MonitoringCard title="Quality Measurement TX">
+          <QualityTxBarChart data={irdHarmonicData} />
         </MonitoringCard>
 
         <MonitoringCard title="Quality Measurement RX">
-          <QualityChart />
+          <QualityRxBarChart data={irdHarmonicData} />
         </MonitoringCard>
 
         <MonitoringCard title="On Air">
@@ -255,50 +264,73 @@ const MainStationsContent = () => {
             <div className="flex items-center gap-2 text-xs">
               <div className="flex items-center gap-1">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-green-400 font-medium">OnAir: {normalStations.length}</span>
+                <span className="text-green-400 font-medium">
+                  OnAir: {normalStations.length}
+                </span>
               </div>
               <div className="flex items-center gap-1">
                 <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                <span className="text-red-400 font-medium">Down: {downtimeStations.length}</span>
+                <span className="text-red-400 font-medium">
+                  Down: {downtimeStations.length}
+                </span>
               </div>
               <div className="flex items-center gap-1">
                 <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
-                <span className="text-gray-400 font-medium">Unknown: {unknownDowntimeStations.length}</span>
+                <span className="text-gray-400 font-medium">
+                  Unknown: {unknownDowntimeStations.length}
+                </span>
               </div>
             </div>
             <div className="w-full space-y-1 max-h-12 overflow-y-auto">
-              {Object.entries(downtimeByStationType).map(([stationType, counts]) => {
-                const total = counts.normal + counts.downtime + counts.unknown;
-                return (
-                  <div key={stationType} className="flex items-center gap-1 text-xs">
-                    <span className="text-gray-300 w-8 truncate">{stationType}</span>
-                    <div className="flex-1 bg-gray-700 rounded-full h-1.5 overflow-hidden flex">
-                      <div 
-                        className="bg-green-500 h-full transition-all duration-300"
-                        style={{ 
-                          width: `${total > 0 ? (counts.normal / total) * 100 : 0}%` 
-                        }}
-                      />
-                      <div 
-                        className="bg-red-500 h-full transition-all duration-300"
-                        style={{ 
-                          width: `${total > 0 ? (counts.downtime / total) * 100 : 0}%` 
-                        }}
-                      />
-                      <div 
-                        className="bg-gray-500 h-full transition-all duration-300"
-                        style={{ 
-                          width: `${total > 0 ? (counts.unknown / total) * 100 : 0}%` 
-                        }}
-                      />
+              {Object.entries(downtimeByStationType).map(
+                ([stationType, counts]) => {
+                  const total =
+                    counts.normal + counts.downtime + counts.unknown;
+                  return (
+                    <div
+                      key={stationType}
+                      className="flex items-center gap-1 text-xs"
+                    >
+                      <span className="text-gray-300 w-8 truncate">
+                        {stationType}
+                      </span>
+                      <div className="flex-1 bg-gray-700 rounded-full h-1.5 overflow-hidden flex">
+                        <div
+                          className="bg-green-500 h-full transition-all duration-300"
+                          style={{
+                            width: `${
+                              total > 0 ? (counts.normal / total) * 100 : 0
+                            }%`,
+                          }}
+                        />
+                        <div
+                          className="bg-red-500 h-full transition-all duration-300"
+                          style={{
+                            width: `${
+                              total > 0 ? (counts.downtime / total) * 100 : 0
+                            }%`,
+                          }}
+                        />
+                        <div
+                          className="bg-gray-500 h-full transition-all duration-300"
+                          style={{
+                            width: `${
+                              total > 0 ? (counts.unknown / total) * 100 : 0
+                            }%`,
+                          }}
+                        />
+                      </div>
+                      <span className="text-gray-400 text-xs">
+                        {counts.normal}/{counts.downtime}/{counts.unknown}
+                      </span>
                     </div>
-                    <span className="text-gray-400 text-xs">{counts.normal}/{counts.downtime}/{counts.unknown}</span>
-                  </div>
-                );
-              })}
+                  );
+                }
+              )}
             </div>
           </div>
         </MonitoringCard>
+
         <MonitoringCard title="PEA & MEA Status">
           <div className="flex flex-col items-center justify-center h-16 md:h-20 space-y-1">
             <div className="flex items-center gap-2 text-xs">
@@ -336,19 +368,25 @@ const MainStationsContent = () => {
                       <div
                         className="bg-green-500 h-full transition-all duration-300"
                         style={{
-                          width: `${total > 0 ? (counts.on / total) * 100 : 0}%`,
+                          width: `${
+                            total > 0 ? (counts.on / total) * 100 : 0
+                          }%`,
                         }}
                       />
                       <div
                         className="bg-red-500 h-full transition-all duration-300"
                         style={{
-                          width: `${total > 0 ? (counts.off / total) * 100 : 0}%`,
+                          width: `${
+                            total > 0 ? (counts.off / total) * 100 : 0
+                          }%`,
                         }}
                       />
                       <div
                         className="bg-gray-500 h-full transition-all duration-300"
                         style={{
-                          width: `${total > 0 ? (counts.unknown / total) * 100 : 0}%`,
+                          width: `${
+                            total > 0 ? (counts.unknown / total) * 100 : 0
+                          }%`,
                         }}
                       />
                     </div>
@@ -404,23 +442,34 @@ const MainStationsContent = () => {
               {Object.entries(satelliteByDevice).map(([deviceType, counts]) => {
                 const total = counts.locked + counts.unlocked;
                 return (
-                  <div key={deviceType} className="flex items-center gap-1 text-xs">
-                    <span className="text-gray-300 w-12 truncate">{deviceType}</span>
+                  <div
+                    key={deviceType}
+                    className="flex items-center gap-1 text-xs"
+                  >
+                    <span className="text-gray-300 w-12 truncate">
+                      {deviceType}
+                    </span>
                     <div className="flex-1 bg-gray-700 rounded-full h-1.5 overflow-hidden flex">
-                      <div 
+                      <div
                         className="bg-green-500 h-full transition-all duration-300"
-                        style={{ 
-                          width: `${total > 0 ? (counts.locked / total) * 100 : 0}%` 
+                        style={{
+                          width: `${
+                            total > 0 ? (counts.locked / total) * 100 : 0
+                          }%`,
                         }}
                       />
-                      <div 
+                      <div
                         className="bg-red-500 h-full transition-all duration-300"
-                        style={{ 
-                          width: `${total > 0 ? (counts.unlocked / total) * 100 : 0}%` 
+                        style={{
+                          width: `${
+                            total > 0 ? (counts.unlocked / total) * 100 : 0
+                          }%`,
                         }}
                       />
                     </div>
-                    <span className="text-gray-400 text-xs">{counts.locked}/{counts.unlocked}</span>
+                    <span className="text-gray-400 text-xs">
+                      {counts.locked}/{counts.unlocked}
+                    </span>
                   </div>
                 );
               })}
@@ -435,7 +484,7 @@ const MainStationsContent = () => {
         </MonitoringCard>
 
         <MonitoringCard title="Transmitter">
-          <TransmitterChart />
+          <TransmitterAnalysisChart data={dailyReporterData} />
         </MonitoringCard>
 
         <MonitoringCard title="Downtime">
@@ -448,7 +497,9 @@ const MainStationsContent = () => {
                       <div className="bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent font-semibold">
                         {station.Station_Thai}
                       </div>
-                      <div className="text-orange-300/80 text-xs">{station.Facility}</div>
+                      <div className="text-orange-300/80 text-xs">
+                        {station.Facility}
+                      </div>
                     </div>
                   ))}
                   {downtimeStations.length > 3 && (
@@ -460,7 +511,9 @@ const MainStationsContent = () => {
               </div>
             ) : (
               <div className="bg-gradient-to-r from-slate-600 to-slate-700 px-4 py-2 rounded-lg border border-slate-500/50 shadow-md hover:shadow-lg transition-all duration-200">
-                <span className="text-slate-300 text-lg font-semibold">N/A</span>
+                <span className="text-slate-300 text-lg font-semibold">
+                  N/A
+                </span>
               </div>
             )}
           </div>
@@ -476,27 +529,36 @@ const MainStationsContent = () => {
                       <div className="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent font-semibold">
                         {station.Station_Thai} (OFF)
                       </div>
-                      <div className="text-amber-300/80 text-xs">{station.Facility}</div>
-                    </div>
-                  ))}
-                  {peaUnknownStations.slice(0, Math.max(0, 3 - peaOffStations.length)).map((station, index) => (
-                    <div key={`unknown-${index}`} className="mb-1">
-                      <div className="bg-gradient-to-r from-gray-400 to-gray-500 bg-clip-text text-transparent font-semibold">
-                        {station.Station_Thai} (Unknown)
+                      <div className="text-amber-300/80 text-xs">
+                        {station.Facility}
                       </div>
-                      <div className="text-gray-300/80 text-xs">{station.Facility}</div>
                     </div>
                   ))}
-                  {(peaOffStations.length + peaUnknownStations.length) > 3 && (
+                  {peaUnknownStations
+                    .slice(0, Math.max(0, 3 - peaOffStations.length))
+                    .map((station, index) => (
+                      <div key={`unknown-${index}`} className="mb-1">
+                        <div className="bg-gradient-to-r from-gray-400 to-gray-500 bg-clip-text text-transparent font-semibold">
+                          {station.Station_Thai} (Unknown)
+                        </div>
+                        <div className="text-gray-300/80 text-xs">
+                          {station.Facility}
+                        </div>
+                      </div>
+                    ))}
+                  {peaOffStations.length + peaUnknownStations.length > 3 && (
                     <div className="text-amber-300/60 text-xs mt-1">
-                      +{(peaOffStations.length + peaUnknownStations.length) - 3} more
+                      +{peaOffStations.length + peaUnknownStations.length - 3}{" "}
+                      more
                     </div>
                   )}
                 </div>
               </div>
             ) : (
               <div className="bg-gradient-to-r from-slate-600 to-slate-700 px-4 py-2 rounded-lg border border-slate-500/50 shadow-md hover:shadow-lg transition-all duration-200">
-                <span className="text-slate-300 text-lg font-semibold">N/A</span>
+                <span className="text-slate-300 text-lg font-semibold">
+                  N/A
+                </span>
               </div>
             )}
           </div>
@@ -558,7 +620,9 @@ const MainStationsContent = () => {
               </div>
             ) : (
               <div className="bg-gradient-to-r from-slate-600 to-slate-700 px-4 py-2 rounded-lg border border-slate-500/50 shadow-md hover:shadow-lg transition-all duration-200">
-                <span className="text-slate-300 text-lg font-semibold">N/A</span>
+                <span className="text-slate-300 text-lg font-semibold">
+                  N/A
+                </span>
               </div>
             )}
           </div>

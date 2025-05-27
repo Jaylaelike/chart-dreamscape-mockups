@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import StatusIndicator from "@/components/StatusIndicator";
 import QualityChart from "@/components/QualityChart";
+import QualityRxBarChart from "@/components/QualityRxBarChart";
 import TransmitterChart from "@/components/TransmitterChart";
+import TransmitterAnalysisChart from "@/components/TransmitterAnalysisChart";
 import MonitoringCard from "./MonitoringCard";
 
 interface StationData {
@@ -252,7 +254,7 @@ const AdditionStationsContent = () => {
         </MonitoringCard>
 
         <MonitoringCard title="Quality Measurement RX">
-          <QualityChart />
+          <QualityRxBarChart data={irdHarmonicData} />
         </MonitoringCard>
 
         <MonitoringCard title="On Air">
@@ -453,7 +455,7 @@ const AdditionStationsContent = () => {
         </MonitoringCard>
 
         <MonitoringCard title="Transmitter">
-          <TransmitterChart value={25} />
+          <TransmitterAnalysisChart data={dailyReporterData} />
         </MonitoringCard>
 
         <MonitoringCard title="Downtime">
