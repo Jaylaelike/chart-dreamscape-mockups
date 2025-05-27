@@ -13,7 +13,7 @@ const Index = () => {
   const [currentTime] = useState(new Date().toLocaleTimeString());
   
   const stations = [
-    { id: "all", name: "ALL", active: false },
+    { id: "all", name: "ALL", active: true },
     { id: "r11", name: "R11", location: "Bangkok", active: true },
     { id: "r12", name: "R12", location: "Sa Kaeo", active: true },
     { id: "r21", name: "R21", location: "Song Khla", active: true },
@@ -33,12 +33,12 @@ const Index = () => {
       <Header />
 
       {/* Station Tabs */}
-      <Tabs defaultValue="r11" className="w-full">
+      <Tabs defaultValue="all" className="w-full">
         <StationTabs stations={stations} />
 
         {/* Main Content */}
         <div className="p-2 sm:p-4 md:p-6">
-          <TabsContent value="r11" className="space-y-4">
+          <TabsContent value="all" className="space-y-4">
             {/* 39 Main Stations */}
             <StationSection title="39 Main Stations">
               <MainStationsContent />
