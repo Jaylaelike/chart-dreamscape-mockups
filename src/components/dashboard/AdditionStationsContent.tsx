@@ -3,8 +3,10 @@ import { useQuery } from "@tanstack/react-query";
 import StatusIndicator from "@/components/StatusIndicator";
 import QualityChart from "@/components/QualityChart";
 import QualityRxBarChart from "@/components/QualityRxBarChart";
+import QualityTxBarChart from "@/components/QualityTxBarChart";
 import TransmitterChart from "@/components/TransmitterChart";
 import TransmitterAnalysisChart from "@/components/TransmitterAnalysisChart";
+import ArtificialDelayBarChart from "@/components/ArtificialDelayBarChart";
 import MonitoringCard from "./MonitoringCard";
 
 interface StationData {
@@ -71,12 +73,37 @@ interface IrdHarmonicData {
   Eng_No: number;
 }
 
+interface TxControlData {
+  time: string;
+  Center: string;
+  Station: string;
+  Device_Name: string;
+  IP: string;
+  Output_Power_Percent: string;
+  IMD: string;
+  MER: string;
+  Status: string;
+  Engineering_center: string;
+  ip: string;
+  Transmistion_Brand: string;
+  No: string;
+  Facility: string;
+  Station_Eng: string;
+  Station_Thai: string;
+  Station_Type: string;
+  Eng_No: number;
+}
+
 interface ApiResponse {
   orders: StationData[];
 }
 
 interface IrdApiResponse {
   orders: IrdHarmonicData[];
+}
+
+interface TxControlApiResponse {
+  orders: TxControlData[];
 }
 
 const AdditionStationsContent = () => {
@@ -151,8 +178,32 @@ const AdditionStationsContent = () => {
     refetchOnMount: true,
     refetchOnWindowFocus: true
   });
+
+  // Fetch TX Control data with React Query
+  const {
+    data: txControlData = [],
+    isLoading: isTxControlDataLoading
+  } = useQuery({
+    queryKey: ['txControlData', 'addition'],
+    queryFn: async () => {
+      const txResponse = await fetch(
+        "http://localhost:3000/api/tx_control_with_eng_center"
+      );
+      const txData: TxControlApiResponse = await txResponse.json();
+      
+      // Filter only Station_Type !== "M" (non-M stations)
+      const filteredTxData = txData.orders.filter(
+        (station) => station.Station_Type !== "M"
+      );
+      console.log("Fetched addition TX control data:", filteredTxData);
+      return filteredTxData;
+    },
+    refetchInterval: 10000, // Refetch every 10 seconds
+    refetchOnMount: true,
+    refetchOnWindowFocus: true
+  });
   
-  const loading = isStationDataLoading || isDailyReporterDataLoading || isIrdHarmonicDataLoading;
+  const loading = isStationDataLoading || isDailyReporterDataLoading || isIrdHarmonicDataLoading || isTxControlDataLoading;
 
   // Calculate NT Link statistics
   const connectedStations = stationData.filter(
@@ -250,7 +301,7 @@ const AdditionStationsContent = () => {
     <div className="space-y-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-6">
         <MonitoringCard title="Quality Measurement TX [NEC]">
-          <QualityChart />
+          <QualityTxBarChart data={txControlData} />
         </MonitoringCard>
 
         <MonitoringCard title="Quality Measurement RX">
@@ -451,7 +502,7 @@ const AdditionStationsContent = () => {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 md:gap-6">
         <MonitoringCard title="Artificial delay">
-          <QualityChart showDelay />
+          <ArtificialDelayBarChart data={dailyReporterData} />
         </MonitoringCard>
 
         <MonitoringCard title="Transmitter">
@@ -491,14 +542,14 @@ const AdditionStationsContent = () => {
         <MonitoringCard title="Electrical Fault">
           <div className="flex items-center justify-center h-16 md:h-20">
             {peaOffStations.length > 0 || peaUnknownStations.length > 0 ? (
-              <div className="text-center bg-gradient-to-br from-amber-500/20 to-orange-500/20 p-3 rounded-lg border border-amber-400/30 backdrop-blur-sm hover:border-amber-400/50 transition-all duration-200 shadow-md w-full">
-                <div className="text-amber-400 font-medium text-xs leading-tight space-y-0.5 max-h-16 overflow-y-auto">
+              <div className="text-center bg-gradient-to-br from-lime-50 to-green-50 p-3 rounded-lg border border-lime-200 backdrop-blur-sm hover:border-lime-300 transition-all duration-200 shadow-sm hover:shadow-md w-full">
+                <div className="text-lime-600 font-medium text-xs leading-tight space-y-0.5 max-h-16 overflow-y-auto">
                   {peaOffStations.slice(0, 2).map((station, index) => (
                     <div key={index} className="mb-1">
-                      <div className="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent font-semibold">
+                      <div className="text-lime-600 font-semibold">
                         {station.Station_Thai} (OFF)
                       </div>
-                      <div className="text-amber-300/80 text-xs">
+                      <div className="text-lime-500 text-xs">
                         {station.Facility}
                       </div>
                     </div>
@@ -516,7 +567,7 @@ const AdditionStationsContent = () => {
                       </div>
                     ))}
                   {peaOffStations.length + peaUnknownStations.length > 3 && (
-                    <div className="text-amber-300/60 text-xs mt-1">
+                    <div className="text-lime-400 text-xs mt-1">
                       +{peaOffStations.length + peaUnknownStations.length - 3}{" "}
                       more
                     </div>
@@ -524,8 +575,8 @@ const AdditionStationsContent = () => {
                 </div>
               </div>
             ) : (
-              <div className="bg-gradient-to-r from-slate-600 to-slate-700 px-4 py-2 rounded-lg border border-slate-500/50 shadow-md hover:shadow-lg transition-all duration-200">
-                <span className="text-slate-300 text-lg font-semibold">
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-2 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
+                <span className="text-gray-400 text-lg font-semibold">
                   N/A
                 </span>
               </div>
@@ -536,28 +587,28 @@ const AdditionStationsContent = () => {
         <MonitoringCard title="NT Link Fault">
           <div className="flex items-center justify-center h-16 md:h-20">
             {disconnectedStations.length > 0 ? (
-              <div className="text-center bg-gradient-to-br from-red-500/20 to-pink-500/20 p-3 rounded-lg border border-red-400/30 backdrop-blur-sm hover:border-red-400/50 transition-all duration-200 shadow-md w-full">
-                <div className="text-red-400 font-medium text-xs leading-tight space-y-0.5 max-h-16 overflow-y-auto">
+              <div className="text-center bg-gradient-to-br from-red-50 to-pink-50 p-3 rounded-lg border border-red-200 backdrop-blur-sm hover:border-red-300 transition-all duration-200 shadow-sm hover:shadow-md w-full">
+                <div className="text-red-600 font-medium text-xs leading-tight space-y-0.5 max-h-16 overflow-y-auto">
                   {disconnectedStations.slice(0, 3).map((station, index) => (
                     <div key={index} className="mb-1">
-                      <div className="bg-gradient-to-r from-red-400 to-pink-400 bg-clip-text text-transparent font-semibold">
+                      <div className="text-red-600 font-semibold">
                         {station.Station_Thai}
                       </div>
-                      <div className="text-red-300/80 text-xs">
+                      <div className="text-red-500 text-xs">
                         {station.Facility}
                       </div>
                     </div>
                   ))}
                   {disconnectedStations.length > 3 && (
-                    <div className="text-red-300/60 text-xs mt-1">
+                    <div className="text-red-400 text-xs mt-1">
                       +{disconnectedStations.length - 3} more
                     </div>
                   )}
                 </div>
               </div>
             ) : (
-              <div className="bg-gradient-to-r from-slate-600 to-slate-700 px-4 py-2 rounded-lg border border-slate-500/50 shadow-md hover:shadow-lg transition-all duration-200">
-                <span className="text-slate-300 text-lg font-semibold">
+              <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-2 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
+                <span className="text-gray-400 text-lg font-semibold">
                   N/A
                 </span>
               </div>
@@ -568,20 +619,20 @@ const AdditionStationsContent = () => {
         <MonitoringCard title="Satellite Link Fault">
           <div className="flex items-center justify-center h-16 md:h-20">
             {unlockedCarrierStations.length > 0 ? (
-              <div className="text-center bg-gradient-to-br from-orange-500/20 to-red-500/20 p-3 rounded-lg border border-orange-400/30 backdrop-blur-sm hover:border-orange-400/50 transition-all duration-200 shadow-md w-full">
-                <div className="text-orange-400 font-medium text-xs leading-tight space-y-0.5 max-h-16 overflow-y-auto">
+              <div className="text-center bg-gradient-to-br from-orange-50 to-red-50 p-3 rounded-lg border border-orange-200 backdrop-blur-sm hover:border-orange-300 transition-all duration-200 shadow-sm hover:shadow-md w-full">
+                <div className="text-orange-600 font-medium text-xs leading-tight space-y-0.5 max-h-16 overflow-y-auto">
                   {unlockedCarrierStations.slice(0, 3).map((station, index) => (
                     <div key={index} className="mb-1">
-                      <div className="bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent font-semibold">
+                      <div className="text-orange-600 font-semibold">
                         {station.Station_Thai}
                       </div>
-                      <div className="text-orange-300/80 text-xs">
+                      <div className="text-orange-500 text-xs">
                         {station.Facility} - {station.Device_Name}
                       </div>
                     </div>
                   ))}
                   {unlockedCarrierStations.length > 3 && (
-                    <div className="text-orange-300/60 text-xs mt-1">
+                    <div className="text-orange-400 text-xs mt-1">
                       +{unlockedCarrierStations.length - 3} more
                     </div>
                   )}

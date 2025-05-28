@@ -9,9 +9,9 @@ interface MonitoringCardProps {
 
 const MonitoringCard = ({ title, children }: MonitoringCardProps) => {
   return (
-    <Card className="bg-blue-600 border-blue-500 h-full">
+    <Card className="bg-white border-blue-200 h-full shadow-sm hover:shadow-md transition-shadow duration-200">
       <CardHeader className="pb-2 p-3 sm:p-4">
-        <CardTitle className="text-xs sm:text-sm text-center text-white">{title}</CardTitle>
+        <CardTitle className="text-xs sm:text-sm text-center text-blue-700 font-semibold">{title}</CardTitle>
       </CardHeader>
       <CardContent className="p-2 sm:p-4 pt-0">
         {children}
