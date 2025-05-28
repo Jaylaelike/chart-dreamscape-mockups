@@ -106,27 +106,38 @@ interface TxControlApiResponse {
   orders: TxControlData[];
 }
 
-const AdditionStationsContent = () => {
+interface AdditionStationsContentProps {
+  engineeringCenter?: string;
+}
+
+const AdditionStationsContent = ({ engineeringCenter }: AdditionStationsContentProps) => {
   // Fetch NT Link data with React Query
   const { 
     data: stationData = [], 
     isLoading: isStationDataLoading
   } = useQuery({
-    queryKey: ['stationData', 'addition'],
+    queryKey: ['stationData', 'addition', engineeringCenter],
     queryFn: async () => {
       const response = await fetch(
-        "http://localhost:3000/api/cisco_sw_join_eng_center"
+        import.meta.env.VITE_SERVER_URL + "api/cisco_sw_join_eng_center"
       );
       const data: ApiResponse = await response.json();
       
-      // Filter only Station_Type !== "M" (non-M stations)
-      const filteredData = data.orders.filter(
+      // Filter by Station_Type !== "M" and optionally by Engineering_center
+      let filteredData = data.orders.filter(
         (station) => station.Station_Type !== "M"
       );
+      
+      if (engineeringCenter) {
+        filteredData = filteredData.filter(
+          (station) => station.Engineering_center === engineeringCenter
+        );
+      }
+      
       console.log("Fetched addition station data:", filteredData);
       return filteredData;
     },
-    refetchInterval: 10000 , // Refetch every 10 seconds
+    refetchInterval: 600000 , // Refetch every 10 minutes
     refetchOnMount: true,
     refetchOnWindowFocus: true
   });
@@ -136,17 +147,24 @@ const AdditionStationsContent = () => {
     data: dailyReporterData = [],
     isLoading: isDailyReporterDataLoading
   } = useQuery({
-    queryKey: ['dailyReporterData', 'addition'],
+    queryKey: ['dailyReporterData', 'addition', engineeringCenter],
     queryFn: async () => {
       const dailyResponse = await fetch(
-        "http://localhost:3000/api/daily_reporter"
+        import.meta.env.VITE_SERVER_URL + "api/daily_reporter"
       );
       const dailyData: DailyReporterData[] = await dailyResponse.json();
       
-      // Filter only Station_Type !== "M" (non-M stations)
-      const filteredDailyData = dailyData.filter(
+      // Filter by Station_Type !== "M" and optionally by Engineering_center
+      let filteredDailyData = dailyData.filter(
         (station) => station.Station_Type !== "M"
       );
+      
+      if (engineeringCenter) {
+        filteredDailyData = filteredDailyData.filter(
+          (station) => station.Engineering_center === engineeringCenter
+        );
+      }
+      
       console.log("Fetched addition daily reporter data:", filteredDailyData);
       return filteredDailyData;
     },
@@ -160,17 +178,24 @@ const AdditionStationsContent = () => {
     data: irdHarmonicData = [],
     isLoading: isIrdHarmonicDataLoading
   } = useQuery({
-    queryKey: ['irdHarmonicData', 'addition'],
+    queryKey: ['irdHarmonicData', 'addition', engineeringCenter],
     queryFn: async () => {
       const irdResponse = await fetch(
-        "http://localhost:3000/api/ird_harmonic_join_eng_center"
+        import.meta.env.VITE_SERVER_URL + "api/ird_harmonic_join_eng_center"
       );
       const irdData: IrdApiResponse = await irdResponse.json();
       
-      // Filter only Station_Type !== "M" (non-M stations)
-      const filteredIrdData = irdData.orders.filter(
+      // Filter by Station_Type !== "M" and optionally by Engineering_center
+      let filteredIrdData = irdData.orders.filter(
         (station) => station.Station_Type !== "M"
       );
+      
+      if (engineeringCenter) {
+        filteredIrdData = filteredIrdData.filter(
+          (station) => station.Engineering_center === engineeringCenter
+        );
+      }
+      
       console.log("Fetched addition IRD harmonic data:", filteredIrdData);
       return filteredIrdData;
     },
@@ -184,21 +209,28 @@ const AdditionStationsContent = () => {
     data: txControlData = [],
     isLoading: isTxControlDataLoading
   } = useQuery({
-    queryKey: ['txControlData', 'addition'],
+    queryKey: ['txControlData', 'addition', engineeringCenter],
     queryFn: async () => {
       const txResponse = await fetch(
-        "http://localhost:3000/api/tx_control_with_eng_center"
+        import.meta.env.VITE_SERVER_URL + "api/tx_control_with_eng_center"
       );
       const txData: TxControlApiResponse = await txResponse.json();
       
-      // Filter only Station_Type !== "M" (non-M stations)
-      const filteredTxData = txData.orders.filter(
+      // Filter by Station_Type !== "M" and optionally by Engineering_center
+      let filteredTxData = txData.orders.filter(
         (station) => station.Station_Type !== "M"
       );
+      
+      if (engineeringCenter) {
+        filteredTxData = filteredTxData.filter(
+          (station) => station.Engineering_center === engineeringCenter
+        );
+      }
+      
       console.log("Fetched addition TX control data:", filteredTxData);
       return filteredTxData;
     },
-    refetchInterval: 10000, // Refetch every 10 seconds
+    refetchInterval: 600000 , // Refetch every 10 minutes
     refetchOnMount: true,
     refetchOnWindowFocus: true
   });

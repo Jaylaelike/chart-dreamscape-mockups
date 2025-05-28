@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"  # Frontend (Vite)
+      - "5300:5300"  # Backend API
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=file:./dev.db
+      - PORT=5300
+    volumes:
+      # Mount database file for persistence
+      - ./prisma/dev.db:/app/prisma/dev.db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://172.16.202.63:5300/api/sla-metrics"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # Development service (optional)
+  app-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8081:8080"  # Frontend dev server
+      - "5301:5300"  # Backend dev server
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=file:./dev.db
+      - PORT=5300
+    volumes:
+      - ./src:/app/src
+      - ./public:/app/public
+      - ./prisma:/app/prisma
+      - ./server.js:/app/server.js
+      - ./package.json:/app/package.json
+      - ./vite.config.ts:/app/vite.config.ts
+      - ./tsconfig.json:/app/tsconfig.json
+    command: >
+      sh -c "
+        npx prisma generate &&
+        npx prisma migrate deploy &&
+        npm run server &
+        npm run dev
+      "
+    profiles:
+      - dev
