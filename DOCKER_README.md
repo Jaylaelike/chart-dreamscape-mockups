@@ -55,9 +55,28 @@ docker run -p 8081:8080 -p 5301:5300 -v $(pwd)/src:/app/src chart-dreamscape-dev
 
 ## Environment Variables
 
-- `NODE_ENV` - Environment (development/production)
-- `DATABASE_URL` - Database connection string
-- `PORT` - Backend server port (default: 5300)
+The application uses a `.env` file that is included in the Docker image. The following variables are configured:
+
+- `DATABASE_URL="file:./dev.db"` - SQLite database path
+- `PORT=5300` - Backend server port
+- `VITE_CONFIG_SLA_URL="http://172.16.202.63:5300/"` - SLA API URL
+- `VITE_SERVER_URL="http://172.16.202.63:3004/"` - Server URL
+
+### Overriding Environment Variables
+
+You can override these variables when running the container:
+
+```bash
+docker run -d \
+  -p 8080:8080 \
+  -p 5300:5300 \
+  --restart unless-stopped \
+  --name chart-dreamscape-app \
+  -e PORT=5300 \
+  -e DATABASE_URL="file:./dev.db" \
+  -e VITE_CONFIG_SLA_URL="http://your-server:5300/" \
+  chart-dreamscape-app
+```
 
 ## Database
 

@@ -61,18 +61,7 @@ const Index = () => {
                   <AdditionStationsContent />
                 </StationSection>
 
-                {/* SLA Performance Metrics Section */}
-                <StationSection title="SLA Performance Metrics">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <SLAMetricsForm />
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-medium mb-4">SLA Metrics Table</h3>
-                      <SLAMetricsTable />
-                    </div>
-                  </div>
-                </StationSection>
+               
               </TabsContent>
 
               {/* Engineering Center specific tabs */}

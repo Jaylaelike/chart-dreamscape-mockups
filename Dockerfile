@@ -19,6 +19,9 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
+# Copy environment file
+COPY .env .env
+
 # Generate Prisma client
 RUN npm install -g pnpm
 RUN npx prisma generate
@@ -42,6 +45,7 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/server.js ./server.js
 COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/.env .env
 
 # Ensure proper permissions for database directory
 RUN chown -R appuser:appgroup /app
@@ -50,10 +54,6 @@ USER appuser
 
 # Expose ports
 EXPOSE 8080 5300
-
-# Environment variables
-ENV PORT=5300
-ENV DATABASE_URL="file:./dev.db"
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \

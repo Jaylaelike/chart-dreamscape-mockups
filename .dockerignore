@@ -7,8 +7,8 @@ pnpm-debug.log*
 dist
 build
 
-# Environment files
-.env
+# Environment files (keep .env for production)
+# .env  # Commented out to include main .env file
 .env.local
 .env.development.local
 .env.test.local
