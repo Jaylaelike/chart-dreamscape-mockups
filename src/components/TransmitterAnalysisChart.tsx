@@ -98,7 +98,7 @@ const TransmitterAnalysisChart = ({ data }: TransmitterAnalysisChartProps) => {
   if (totalStations === 0) {
     return (
       <div className="h-20 flex flex-col items-center justify-center">
-        <div className="text-slate-400 text-sm">No transmitter data</div>
+        <div className="text-slate-400 text-md">No transmitter data</div>
       </div>
     );
   }
@@ -177,7 +177,7 @@ const TransmitterAnalysisChart = ({ data }: TransmitterAnalysisChartProps) => {
               <div className="flex flex-col items-center">
                 <div 
                   className={cn(
-                    "text-white px-2 py-0.5 rounded font-medium text-xs",
+                    "text-white text-md px-2 py-0.5 rounded font-medium ",
                     entry.category === 'mux' ? "bg-gradient-to-r from-green-400 to-green-600" :
                     entry.category === 'reserve' ? "bg-gradient-to-r from-blue-400 to-blue-600" :
                     entry.category === 'unknown' ? "bg-gradient-to-r from-gray-400 to-gray-600" :
@@ -197,7 +197,7 @@ const TransmitterAnalysisChart = ({ data }: TransmitterAnalysisChartProps) => {
       
       {/* Show facility breakdown if there are multiple facilities */}
       {Object.keys(transmitterDataByFacility).length > 1 && (
-        <div className="mt-1 text-xs text-gray-400 text-center">
+        <div className="mt-1 text-md text-black text-center">
           Across {Object.keys(transmitterDataByFacility).length} facilities
         </div>
       )}

@@ -41,9 +41,9 @@ const Header = () => {
       {/* SLA Summary */}
       <div className="mt-6 bg-gray-900/50 rounded-lg p-4 border border-gray-600/30">
         <Link to="/sla-metrics" className="block hover:opacity-90 transition-opacity">
-          <h3 className="text-center text-yellow-400 font-semibold mb-4 text-base tracking-wide flex items-center justify-center">
+          <h3 className="text-center text-yellow-400 font-bold mb-4 text-lg tracking-wide flex items-center justify-center">
             SLA Performance Metrics
-            <span className="ml-2 text-xs bg-blue-500 px-2 py-0.5 rounded-full text-white">Click to manage</span>
+            <span className="ml-2 text-xs bg-blue-600 px-2 py-0.5 rounded-full text-white font-semibold">Click to manage</span>
           </h3>
         </Link>
         
@@ -66,46 +66,46 @@ const Header = () => {
         ) : (
           <div className="grid grid-cols-4 gap-6">
             <Link to="/sla-metrics" className="block">
-              <div className="bg-gray-800/80 rounded-lg p-3 border border-gray-600/50 hover:border-pink-400/50 transition-colors cursor-pointer">
+              <div className="bg-gray-800/80 rounded-lg p-4 border-2 border-gray-600/50 hover:border-pink-500/70 transition-colors cursor-pointer shadow-md">
                 <div className="text-center">
-                  <div className="text-pink-400 font-medium text-sm mb-2">Downtime</div>
-                  <div className="bg-gradient-to-r from-pink-500 to-red-500 text-white px-3 py-2 rounded-md font-mono text-lg font-bold shadow-lg">
+                  <div className="text-pink-500 font-semibold text-base mb-2">Downtime</div>
+                  <div className="bg-gradient-to-r from-pink-600 to-red-600 text-white px-3 py-2 rounded-md font-mono text-2xl font-bold shadow-lg">
                     {latestMetric.downtime.toFixed(0)} min
                   </div>
-                  <div className="text-xs text-gray-400 mt-2">Double-click to edit</div>
+                  <div className="text-xs text-gray-300 mt-2 font-medium">Double-click to edit</div>
                 </div>
               </div>
             </Link>
             <Link to="/sla-metrics" className="block">
-              <div className="bg-gray-800/80 rounded-lg p-3 border border-gray-600/50 hover:border-yellow-400/50 transition-colors cursor-pointer">
+              <div className="bg-gray-800/80 rounded-lg p-4 border-2 border-gray-600/50 hover:border-yellow-500/70 transition-colors cursor-pointer shadow-md">
                 <div className="text-center">
-                  <div className="text-yellow-400 font-medium text-sm mb-2">Total Time</div>
-                  <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black px-3 py-2 rounded-md font-mono text-lg font-bold shadow-lg">
+                  <div className="text-yellow-500 font-semibold text-base mb-2">Total Time</div>
+                  <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-black px-3 py-2 rounded-md font-mono text-2xl font-bold shadow-lg">
                     {latestMetric.totalTime.toFixed(0)} min
                   </div>
-                  <div className="text-xs text-gray-400 mt-2">Double-click to edit</div>
+                  <div className="text-xs text-gray-300 mt-2 font-medium">Double-click to edit</div>
                 </div>
               </div>
             </Link>
             <Link to="/sla-metrics" className="block">
-              <div className="bg-gray-800/80 rounded-lg p-3 border border-gray-600/50 hover:border-blue-400/50 transition-colors cursor-pointer">
+              <div className="bg-gray-800/80 rounded-lg p-4 border-2 border-gray-600/50 hover:border-blue-500/70 transition-colors cursor-pointer shadow-md">
                 <div className="text-center">
-                  <div className="text-blue-400 font-medium text-sm mb-2">SLA Deduct</div>
-                  <div className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-3 py-2 rounded-md font-mono text-lg font-bold shadow-lg">
+                  <div className="text-blue-500 font-semibold text-base mb-2">SLA Deduct</div>
+                  <div className="bg-gradient-to-r from-blue-600 to-cyan-600 text-white px-3 py-2 rounded-md font-mono text-2xl font-bold shadow-lg">
                     {latestMetric.slaDeduct.toFixed(2)}%
                   </div>
-                  <div className="text-xs text-gray-400 mt-2">Double-click to edit</div>
+                  <div className="text-xs text-gray-300 mt-2 font-medium">Double-click to edit</div>
                 </div>
               </div>
             </Link>
             <Link to="/sla-metrics" className="block">
-              <div className="bg-gray-800/80 rounded-lg p-3 border border-gray-600/50 hover:border-green-400/50 transition-colors cursor-pointer">
+              <div className="bg-gray-800/80 rounded-lg p-4 border-2 border-gray-600/50 hover:border-green-500/70 transition-colors cursor-pointer shadow-md">
                 <div className="text-center">
-                  <div className="text-green-400 font-medium text-sm mb-2">SLA Remain</div>
-                  <div className="bg-gradient-to-r from-green-500 to-emerald-500 text-white px-3 py-2 rounded-md font-mono text-lg font-bold shadow-lg">
+                  <div className="text-green-500 font-semibold text-base mb-2">SLA Remain</div>
+                  <div className="bg-gradient-to-r from-green-600 to-emerald-600 text-white px-3 py-2 rounded-md font-mono text-2xl font-bold shadow-lg">
                     {latestMetric.slaRemain.toFixed(2)}%
                   </div>
-                  <div className="text-xs text-gray-400 mt-2">Double-click to edit</div>
+                  <div className="text-xs text-gray-300 mt-2 font-medium">Double-click to edit</div>
                 </div>
               </div>
             </Link>

@@ -64,12 +64,19 @@ const EditableCell: React.FC<EditableCellProps> = ({ value, field, id, onSave })
   }
 
   return (
-    <div onDoubleClick={handleDoubleClick} className="cursor-pointer hover:bg-gray-100 p-1 rounded">
-      {field === 'slaDeduct' || field === 'slaRemain' 
-        ? `${value.toFixed(2)}%` 
-        : field === 'downtime' || field === 'totalTime' 
-          ? `${value.toFixed(0)} min` 
-          : value}
+    <div onDoubleClick={handleDoubleClick} className="cursor-pointer hover:bg-gray-200 p-2 rounded font-medium text-base transition-colors">
+      <span className={`
+        ${field === 'downtime' ? 'text-pink-600 font-semibold' : ''}
+        ${field === 'totalTime' ? 'text-yellow-600 font-semibold' : ''}
+        ${field === 'slaDeduct' ? 'text-blue-600 font-semibold' : ''}
+        ${field === 'slaRemain' ? 'text-green-600 font-semibold' : ''}
+      `}>
+        {field === 'slaDeduct' || field === 'slaRemain' 
+          ? `${value.toFixed(2)}%` 
+          : field === 'downtime' || field === 'totalTime' 
+            ? `${value.toFixed(0)} min` 
+            : value}
+      </span>
     </div>
   );
 };
@@ -95,25 +102,25 @@ export function SLAMetricsTable() {
     );
   };
 
-  if (isLoading) return <div className="text-center p-4">Loading SLA metrics...</div>;
-  if (isError) return <div className="text-center p-4 text-red-500">Error loading SLA metrics</div>;
-  if (!metrics || metrics.length === 0) return <div className="text-center p-4">No SLA metrics found</div>;
+  if (isLoading) return <div className="text-center p-6 text-lg">Loading SLA metrics...</div>;
+  if (isError) return <div className="text-center p-6 text-lg text-red-500 font-semibold">Error loading SLA metrics</div>;
+  if (!metrics || metrics.length === 0) return <div className="text-center p-6 text-lg">No SLA metrics found</div>;
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto rounded-lg shadow-md border border-gray-700">
       <table className="w-full border-collapse">
         <thead>
-          <tr className="bg-gray-100">
-            <th className="p-2 text-left border">Downtime (min)</th>
-            <th className="p-2 text-left border">Total Time (min)</th>
-            <th className="p-2 text-left border">SLA Deduct (%)</th>
-            <th className="p-2 text-left border">SLA Remain (%)</th>
+          <tr className="bg-gray-800 text-white">
+            <th className="p-3 text-left border border-gray-700 font-bold text-pink-400 text-base">Downtime (min)</th>
+            <th className="p-3 text-left border border-gray-700 font-bold text-yellow-400 text-base">Total Time (min)</th>
+            <th className="p-3 text-left border border-gray-700 font-bold text-blue-400 text-base">SLA Deduct (%)</th>
+            <th className="p-3 text-left border border-gray-700 font-bold text-green-400 text-base">SLA Remain (%)</th>
           </tr>
         </thead>
         <tbody>
           {metrics.map((metric) => (
-            <tr key={metric.id} className="border-b hover:bg-gray-50">
-              <td className="p-2 border">
+            <tr key={metric.id} className="border-b border-gray-700 hover:bg-gray-100 transition-colors">
+              <td className="p-3 border border-gray-300">
                 <EditableCell 
                   value={metric.downtime} 
                   field="downtime" 
@@ -121,7 +128,7 @@ export function SLAMetricsTable() {
                   onSave={handleUpdateField} 
                 />
               </td>
-              <td className="p-2 border">
+              <td className="p-3 border border-gray-300">
                 <EditableCell 
                   value={metric.totalTime} 
                   field="totalTime" 
@@ -129,7 +136,7 @@ export function SLAMetricsTable() {
                   onSave={handleUpdateField} 
                 />
               </td>
-              <td className="p-2 border">
+              <td className="p-3 border border-gray-300">
                 <EditableCell 
                   value={metric.slaDeduct} 
                   field="slaDeduct" 
@@ -137,7 +144,7 @@ export function SLAMetricsTable() {
                   onSave={handleUpdateField} 
                 />
               </td>
-              <td className="p-2 border">
+              <td className="p-3 border border-gray-300">
                 <EditableCell 
                   value={metric.slaRemain} 
                   field="slaRemain" 

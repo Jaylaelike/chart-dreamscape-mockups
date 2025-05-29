@@ -342,26 +342,26 @@ const AdditionStationsContent = ({ engineeringCenter }: AdditionStationsContentP
 
         <MonitoringCard title="On Air">
           <div className="flex flex-col items-center justify-center h-16 md:h-20 space-y-1">
-            <div className="flex items-center gap-2 text-xs">
+            <div className="flex items-center gap-0  space-x-0 text-md">
               <div className="flex items-center gap-1">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-green-400 font-medium">Normal: {normalStations.length}</span>
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                <span className="text-green-400 font-bold">Normal: {normalStations.length}</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                <span className="text-red-400 font-medium">Downtime: {downtimeStations.length}</span>
+                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                <span className="text-red-400 font-bold">Downtime: {downtimeStations.length}</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
-                <span className="text-gray-400 font-medium">Unknown: {unknownDowntimeStations.length}</span>
+                <div className="w-3 h-3 bg-gray-500 rounded-full"></div>
+                <span className="text-gray-400 font-bold">Unknown: {unknownDowntimeStations.length}</span>
               </div>
             </div>
             <div className="w-full space-y-0.5 max-h-12 ">
               {Object.entries(downtimeByStationType).map(([stationType, counts]) => {
                 const total = counts.normal + counts.downtime + counts.unknown;
                 return (
-                  <div key={stationType} className="flex items-center gap-1 text-xs">
-                    <span className="text-gray-300 w-8 truncate">{stationType}</span>
+                  <div key={stationType} className="flex items-center gap-1 text-md">
+                    <span className="text-black truncate">{stationType}</span>
                     <div className="flex-1 bg-gray-700 rounded-full h-1.5 overflow-hidden flex">
                       <div 
                         className="bg-green-500 h-full transition-all duration-300"
@@ -382,7 +382,7 @@ const AdditionStationsContent = ({ engineeringCenter }: AdditionStationsContentP
                         }}
                       />
                     </div>
-                    <span className="text-gray-400 text-xs">{counts.normal}/{counts.downtime}/{counts.unknown}</span>
+                    <span className="text-black text-lg ">{counts.normal}/{counts.downtime}/{counts.unknown}</span>
                   </div>
                 );
               })}
@@ -392,22 +392,22 @@ const AdditionStationsContent = ({ engineeringCenter }: AdditionStationsContentP
 
         <MonitoringCard title="PEA & MEA Status">
           <div className="flex flex-col items-center justify-center h-full md:h-20 space-y-1">
-            <div className="flex items-center gap-2 text-xs">
+            <div className="flex items-center gap-2 text-sm md:text-base">
               <div className="flex items-center gap-1">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-green-400 font-medium">
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                <span className="text-green-400 font-bold">
                   ON: {peaOnStations.length}
                 </span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                <span className="text-red-400 font-medium">
+                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                <span className="text-red-400 font-bold">
                   OFF: {peaOffStations.length}
                 </span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-2 h-2 bg-gray-500 rounded-full"></div>
-                <span className="text-gray-400 font-medium">
+                <div className="w-3 h-3 bg-gray-500 rounded-full"></div>
+                <span className="text-gray-400 font-bold">
                   Unknown: {peaUnknownStations.length}
                 </span>
               </div>
@@ -418,9 +418,9 @@ const AdditionStationsContent = ({ engineeringCenter }: AdditionStationsContentP
                 return (
                   <div
                     key={facility}
-                    className="flex items-center gap-1 text-xs"
+                    className="flex items-center gap-1 text-md"
                   >
-                    <span className="text-gray-300 w-8 truncate">
+                    <span className=" truncate text-black">
                       {facility}
                     </span>
                     <div className="flex-1 bg-gray-700 rounded h-2 flex gap-0.5">
@@ -455,7 +455,7 @@ const AdditionStationsContent = ({ engineeringCenter }: AdditionStationsContentP
                         />
                       )}
                     </div>
-                    <span className="text-gray-400 text-xs">
+                    <span className="text-black text-md font-medium">
                       {counts.on}/{counts.off}/{counts.unknown}
                     </span>
                   </div>
@@ -467,21 +467,21 @@ const AdditionStationsContent = ({ engineeringCenter }: AdditionStationsContentP
 
         <MonitoringCard title="NT Link Status">
           <div className="flex flex-col items-center justify-center h-16 md:h-20 space-y-1">
-            <div className="flex items-center gap-4 text-sm">
+            <div className="flex items-center gap-4 text-base md:text-lg">
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-green-400 font-medium">
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                <span className="text-green-400 font-bold">
                   Online: {ntOnlineCount}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                <span className="text-red-400 font-medium">
+                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                <span className="text-red-400 font-bold">
                   Offline: {ntOfflineCount}
                 </span>
               </div>
             </div>
-            <div className="text-xs text-gray-400">
+            <div className="text-black text-sm md:text-base font-medium">
               Total: {stationData.length} stations
             </div>
           </div>
@@ -489,16 +489,16 @@ const AdditionStationsContent = ({ engineeringCenter }: AdditionStationsContentP
 
         <MonitoringCard title="Satellite Link Status">
           <div className="flex flex-col items-center justify-center h-16 md:h-20 space-y-1">
-            <div className="flex items-center gap-2 text-xs">
+            <div className="flex items-center gap-2 text-sm md:text-base">
               <div className="flex items-center gap-1">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-green-400 font-medium">
+                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                <span className="text-green-400 font-bold">
                   Locked: {lockedCarrierStations.length}
                 </span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                <span className="text-red-400 font-medium">
+                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                <span className="text-red-400 font-bold">
                   Unlocked: {unlockedCarrierStations.length}
                 </span>
               </div>
@@ -507,8 +507,8 @@ const AdditionStationsContent = ({ engineeringCenter }: AdditionStationsContentP
               {Object.entries(satelliteByDevice).map(([deviceType, counts]) => {
                 const total = counts.locked + counts.unlocked;
                 return (
-                  <div key={deviceType} className="flex items-center gap-1 text-xs">
-                    <span className="text-gray-300 w-12 truncate">{deviceType}</span>
+                  <div key={deviceType} className="flex items-center gap-1 text-md">
+                    <span className="text-black truncate">{deviceType}</span>
                     <div className="flex-1 bg-gray-700 rounded-full h-1.5 overflow-hidden flex">
                       <div 
                         className="bg-green-500 h-full transition-all duration-300"
@@ -523,7 +523,7 @@ const AdditionStationsContent = ({ engineeringCenter }: AdditionStationsContentP
                         }}
                       />
                     </div>
-                    <span className="text-gray-400 text-xs">{counts.locked}/{counts.unlocked}</span>
+                    <span className="text-black text-md">{counts.locked}/{counts.unlocked}</span>
                   </div>
                 );
               })}
@@ -545,19 +545,19 @@ const AdditionStationsContent = ({ engineeringCenter }: AdditionStationsContentP
           <div className="flex items-center justify-center h-16 md:h-20">
             {downtimeStations.length > 0 ? (
               <div className="text-center bg-gradient-to-br from-red-500/20 to-pink-500/20 p-3 rounded-lg border border-red-400/30 backdrop-blur-sm hover:border-red-400/50 transition-all duration-200 shadow-md w-full">
-                <div className="text-red-400 font-medium text-xs leading-tight space-y-0.5 max-h-16 overflow-y-auto">
+                <div className="text-red-400 font-medium text-sm leading-tight space-y-0.5 max-h-16 overflow-y-auto">
                   {downtimeStations.slice(0, 3).map((station, index) => (
                     <div key={index} className="mb-1">
-                      <div className="bg-gradient-to-r from-red-400 to-pink-400 bg-clip-text text-transparent font-semibold">
+                      <div className="bg-gradient-to-r from-red-400 to-pink-400 bg-clip-text text-transparent font-bold text-lg">
                         {station.Station_Thai}
                       </div>
-                      <div className="text-red-300/80 text-xs">
+                      <div className="text-red-300/80 text-base font-medium">
                         {station.Facility} - {station.Station_Type}
                       </div>
                     </div>
                   ))}
                   {downtimeStations.length > 3 && (
-                    <div className="text-red-300/60 text-xs mt-1">
+                    <div className="text-red-300/60 text-sm font-medium mt-1">
                       +{downtimeStations.length - 3} more
                     </div>
                   )}
@@ -572,43 +572,43 @@ const AdditionStationsContent = ({ engineeringCenter }: AdditionStationsContentP
         </MonitoringCard>
 
         <MonitoringCard title="Electrical Fault">
-          <div className="flex items-center justify-center h-16 md:h-20">
+          <div className="flex items-center justify-center h-55 md:h-55">
             {peaOffStations.length > 0 || peaUnknownStations.length > 0 ? (
-              <div className="text-center bg-gradient-to-br from-lime-50 to-green-50 p-3 rounded-lg border border-lime-200 backdrop-blur-sm hover:border-lime-300 transition-all duration-200 shadow-sm hover:shadow-md w-full">
-                <div className="text-lime-600 font-medium text-xs leading-tight space-y-0.5 max-h-16 overflow-y-auto">
-                  {peaOffStations.slice(0, 2).map((station, index) => (
-                    <div key={index} className="mb-1">
-                      <div className="text-lime-600 font-semibold">
-                        {station.Station_Thai} (OFF)
+              <div className="text-center bg-gradient-to-br from-red-50 to-red-50 p-3 rounded-lg border border-red-200 backdrop-blur-sm hover:border-red-300 transition-all duration-200 shadow-sm hover:shadow-md w-full h-full">
+                <div className="text-red-600 font-medium text-xs leading-tight space-y-0.5 max-h-16 ">
+                  {peaOffStations.slice(0, 100).map((station, index) => (
+                    <div key={index} className="mb-1 flex items-center justify-between gap-1">
+                      <div className="text-red-700 font-bold text-sm truncate">
+                      {station.Station_Thai} (OFF)
                       </div>
-                      <div className="text-lime-500 text-xs">
-                        {station.Facility}
+                      <div className="text-red-600 text-xs truncate">
+                      {station.Facility}
                       </div>
                     </div>
                   ))}
-                  {peaUnknownStations
+                  {/* {peaUnknownStations
                     .slice(0, Math.max(0, 3 - peaOffStations.length))
                     .map((station, index) => (
-                      <div key={`unknown-${index}`} className="mb-1">
-                        <div className="bg-gradient-to-r from-gray-400 to-gray-500 bg-clip-text text-transparent font-semibold">
-                          {station.Station_Thai} (Unknown)
+                        <div key={`unknown-${index}`} className="mb-1 flex items-center justify-between gap-1">
+                          <div className="text-red-500/70 font-semibold text-md truncate">
+                            {station.Station_Thai} (Unknown)
+                          </div>
+                          <div className="text-red-400/70 text-md truncate">
+                            {station.Facility}
+                          </div>
                         </div>
-                        <div className="text-gray-300/80 text-xs">
-                          {station.Facility}
-                        </div>
-                      </div>
-                    ))}
-                  {peaOffStations.length + peaUnknownStations.length > 3 && (
-                    <div className="text-lime-400 text-xs mt-1">
+                    ))}  */}
+                   {/* {peaOffStations.length + peaUnknownStations.length > 3 && (
+                    <div className="text-red-400 text-xs mt-1">
                       +{peaOffStations.length + peaUnknownStations.length - 3}{" "}
                       more
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             ) : (
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-2 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
-                <span className="text-gray-400 text-lg font-semibold">
+              <div className="bg-gradient-to-r from-gray-700 to-gray-800 px-4 py-3 rounded-lg border border-gray-600 shadow-md hover:shadow-lg transition-all duration-200">
+                <span className="text-gray-300 text-xl font-bold">
                   N/A
                 </span>
               </div>
@@ -617,30 +617,30 @@ const AdditionStationsContent = ({ engineeringCenter }: AdditionStationsContentP
         </MonitoringCard>
 
         <MonitoringCard title="NT Link Fault">
-          <div className="flex items-center justify-center h-16 md:h-20">
+          <div className="flex items-center justify-center h-55 md:h-55">
             {disconnectedStations.length > 0 ? (
-              <div className="text-center bg-gradient-to-br from-red-50 to-pink-50 p-3 rounded-lg border border-red-200 backdrop-blur-sm hover:border-red-300 transition-all duration-200 shadow-sm hover:shadow-md w-full">
-                <div className="text-red-600 font-medium text-xs leading-tight space-y-0.5 max-h-16 overflow-y-auto">
-                  {disconnectedStations.slice(0, 3).map((station, index) => (
-                    <div key={index} className="mb-1">
-                      <div className="text-red-600 font-semibold">
+              <div className="text-center bg-gradient-to-br from-red-100 to-pink-100 p-3 rounded-lg border-2 border-red-300 backdrop-blur-sm hover:border-red-400 transition-all duration-200 shadow-md hover:shadow-lg w-full h-full">
+                <div className="text-red-600 font-semibold text-sm leading-tight space-y-1 max-h-16 ">
+                  {disconnectedStations.slice(0, 100).map((station, index) => (
+                    <div key={index} className="mb-1 flex items-center justify-between gap-1">
+                      <div className="text-red-700 font-bold text-sm truncate">
                         {station.Station_Thai}
                       </div>
-                      <div className="text-red-500 text-xs">
+                      <div className="text-red-600 text-xs truncate">
                         {station.Facility}
                       </div>
                     </div>
                   ))}
-                  {disconnectedStations.length > 3 && (
-                    <div className="text-red-400 text-xs mt-1">
+                  {/* {disconnectedStations.length > 3 && (
+                    <div className="text-red-500 text-sm mt-1 font-medium">
                       +{disconnectedStations.length - 3} more
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             ) : (
-              <div className="bg-gradient-to-r from-gray-50 to-gray-100 px-4 py-2 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-200">
-                <span className="text-gray-400 text-lg font-semibold">
+              <div className="bg-gradient-to-r from-gray-700 to-gray-800 px-4 py-3 rounded-lg border border-gray-600 shadow-md hover:shadow-lg transition-all duration-200">
+                <span className="text-gray-300 text-xl font-bold">
                   N/A
                 </span>
               </div>
@@ -651,20 +651,20 @@ const AdditionStationsContent = ({ engineeringCenter }: AdditionStationsContentP
         <MonitoringCard title="Satellite Link Fault">
           <div className="flex items-center justify-center h-16 md:h-20">
             {unlockedCarrierStations.length > 0 ? (
-              <div className="text-center bg-gradient-to-br from-orange-50 to-red-50 p-3 rounded-lg border border-orange-200 backdrop-blur-sm hover:border-orange-300 transition-all duration-200 shadow-sm hover:shadow-md w-full">
-                <div className="text-orange-600 font-medium text-xs leading-tight space-y-0.5 max-h-16 overflow-y-auto">
+              <div className="text-center bg-gradient-to-br from-orange-100 to-red-100 p-3 rounded-lg border-2 border-orange-300 backdrop-blur-sm hover:border-orange-400 transition-all duration-200 shadow-md hover:shadow-lg w-full">
+                <div className="text-orange-600 font-semibold text-sm leading-tight space-y-1 max-h-16 overflow-y-auto">
                   {unlockedCarrierStations.slice(0, 3).map((station, index) => (
                     <div key={index} className="mb-1">
-                      <div className="text-orange-600 font-semibold">
+                      <div className="text-orange-700 font-bold text-base">
                         {station.Station_Thai}
                       </div>
-                      <div className="text-orange-500 text-xs">
+                      <div className="text-orange-600 text-sm">
                         {station.Facility} - {station.Device_Name}
                       </div>
                     </div>
                   ))}
                   {unlockedCarrierStations.length > 3 && (
-                    <div className="text-orange-400 text-xs mt-1">
+                    <div className="text-orange-500 text-sm mt-1 font-medium">
                       +{unlockedCarrierStations.length - 3} more
                     </div>
                   )}
